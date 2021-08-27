@@ -1,1 +1,1 @@
-worker: python 이준민(lee jun min).py
+worker: python3 votebot.py
