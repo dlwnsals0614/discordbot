@@ -18,5 +18,6 @@ async def on_message(message):
         for i in range(1, len(vote)):
             choose = await message.channel.send("```" + vote[i] + "```")
             await choose.add_reaction('👍')
-
-client.run('ODc4MjM1NjIwOTExMjQ3Mzky.YR-OqA.KLmwsPmYZVjoLKFqOV9kAEai27A')
+            
+access_token = os.environ["BOT_TOKEN"]
+client.run(access_token)
