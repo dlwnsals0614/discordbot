@@ -13,7 +13,7 @@ async def on_ready(): # 봇이 실행되면 터미널에서 출력된다
     
 @client.event
 async def on_message(message):
-    if message.content.startswith("투표"):
+    if message.content.startswith("!투표"):
         vote = message.content[4:].split("/")
             await message.channel.send("투표 - " + vote[0])
             for i in range(1, len(vote)):
