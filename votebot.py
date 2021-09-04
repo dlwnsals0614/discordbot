@@ -18,6 +18,15 @@ async def on_message(message):
             choose = await message.channel.send("```" + vote[i] + "```")
             await choose.add_reaction('👍')
             
+    if message.content.startswith ("!프필 "):
+        #await message.delete()
+        profile = message.mentions[0]
+    
+        embed = discord.Embed(title=f"{message.author.name}님께서 요청하신 {profile}님의 프로필 입니다.")
+        embed.set_image(url=profile.avatar_url)
+    
+        await message.channel.send(embed=embed)
+        
 @client.event
 async def on_message(message):
     if message.content.startswith("!ㄱ"):
