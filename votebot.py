@@ -20,11 +20,12 @@ async def on_message(message):
             
 @client.event
 async def on_message(message):
-    if message.content.startswith("!계산기"):
+    if message.content.startswith("!ㄱ"):
         m = await message.channel.send("계산기 로딩중...")
         expression = "None"
-        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=5)
-        e = Embed(title = f"{message.author.name}님의 계산기 | {message.author.id}",description = expression,timestamp = delta)
+        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+        e = Embed(title = f"{message.author.name}님의 계산기 ",description = expression,timestamp = (delta))
+        msg_name = message.author
         buttons = [
             [
                 Button(style=ButtonStyle.gray,label="1",disabled=0),
@@ -53,38 +54,73 @@ async def on_message(message):
                 Button(style=ButtonStyle.gray,label=".",disabled=0),
                 Button(style=ButtonStyle.blue,label="-",disabled=0),
                 Button(style=ButtonStyle.green,label="ㅤㅤ=ㅤㅤ",disabled=0), 
+            ],
+            [
+                Button(style=ButtonStyle.gray,label="(",disabled=0),
+                Button(style=ButtonStyle.gray,label=")",disabled=0),
+                Button(style=ButtonStyle.gray,label="x²",disabled=0),
+                Button(style=ButtonStyle.gray,label="√",disabled=0),
+                Button(style=ButtonStyle.gray,label="ㅤㅤ𝝅ㅤㅤ",disabled=0), 
             ]
         ]
         def calculator(exp):
             o = exp.replace("x","*")
             o = o.replace("÷","/")
+            o = o.replace("²","**2")
+            o = o.replace("√","**(1/2)")
+            o = o.replace("𝝅","")
             result = ""
             try:
                 result=str(eval(o))
             except:
-                result = "An error Occoured"
+                result = "오류가 났어요(┬┬﹏┬┬)"
             return result
-
+        made_at = datetime.timedelta(minutes=2)
         await m.edit(components = buttons,embed = e)
         while m.created_at < delta:
             res = await client.wait_for("button_click")
-            if res.author.id == int(res.message.embeds[0].title.split("|")[1]) and res.message.embeds[0].timestamp < delta:
-                expression = res.message.embeds[0].description
-                if expression == "None" or expression == "An error Occoured":
-                    expression = ""
-                if res.component.label == "ㅤ나가기ㅤ":
-                    await res.respond(content = "계산기를 종료하였습니다",type = 7)
-                    break
-                elif res.component.label == "ㅤ지우기ㅤ":
-                    expression = expression[:-1]
-                elif res.component.label == "ㅤㅤ=ㅤㅤ":
-                    expression = calculator(expression)
-                elif res.component.label == "모두지우기":
-                    expression = None
+            if res.author == msg_name:
+                if datetime.datetime.utcnow() + datetime.timedelta(minutes=2) > datetime.datetime.utcnow():
+                    expression = res.message.embeds[0].description
+                    if expression == "None" or expression == "오류가 났어요(┬┬﹏┬┬)":
+                        expression = ""
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    if res.component.label == "ㅤ나가기ㅤ":
+                        await res.respond(content = "계산기를 종료하였습니다",type = 7)
+                        break
+                    elif res.component.label == "ㅤ지우기ㅤ":
+                        expression = expression[:-1]
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    elif res.component.label == "ㅤㅤ=ㅤㅤ":
+                        expression = calculator(expression)
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    elif res.component.label == "모두지우기":
+                        expression = "None"
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    elif res.component.label == "x²":
+                        expression += "²"
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    elif res.component.label == "√":
+                        expression += res.component.label
+                        expression = calculator(expression)
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    elif res.component.label == "ㅤㅤ𝝅ㅤㅤ":
+                        expression += "𝝅"
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    else:
+                        expression += res.component.label
+                        delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    if expression == "":
+                        expression = "None"
+                    delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
+                    msg_name = message.author
+                    f = Embed(title = f"{message.author.name}님의 계산기 ",description = expression,timestamp = (delta))
+                    await res.respond(content = "",embed = f,components = buttons,type = 7)
                 else:
-                    expression += res.component.label
-                f = Embed(title = f"{message.author.name}님의 계산기 | {message.author.id}",description = expression,timestamp = delta)
-                await res.respond(content = "",embed = f,components = buttons,type = 7)
+                    await res.respond(content = "오래된 계산기에요 계산기는 2분동안 사용을 안하면 사용할수 없어요")
+                    break
+            else:
+                await res.respond(content = "남의것을 사용하려하지말고 자신의것을 사용하세요!")
             
 access_token = os.environ["BOT_TOKEN"]
 client.run(access_token)
