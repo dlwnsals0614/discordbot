@@ -29,7 +29,7 @@ async def on_message(message):
         
 @client.event
 async def on_message(message):
-    if message.content.startswith("!ㄱ"):
+    if message.content.startswith("!계산기"):
         m = await message.channel.send("계산기 로딩중...")
         expression = "None"
         delta = datetime.datetime.utcnow() + datetime.timedelta(minutes=2)
@@ -37,39 +37,39 @@ async def on_message(message):
         msg_name = message.author
         buttons = [
             [
-                Button(style=ButtonStyle.gray,label="1",disabled=0),
-                Button(style=ButtonStyle.gray,label="2",disabled=0),
-                Button(style=ButtonStyle.gray,label="3",disabled=0),
+                Button(style=ButtonStyle.black,label="1",disabled=0),
+                Button(style=ButtonStyle.black,label="2",disabled=0),
+                Button(style=ButtonStyle.black,label="3",disabled=0),
                 Button(style=ButtonStyle.blue,label="x",disabled=0),
                 Button(style=ButtonStyle.red,label="ㅤ나가기ㅤ",disabled=0), 
             ],
             [
-                Button(style=ButtonStyle.gray,label="4",disabled=0),
-                Button(style=ButtonStyle.gray,label="5",disabled=0),
-                Button(style=ButtonStyle.gray,label="6",disabled=0),
+                Button(style=ButtonStyle.black,label="4",disabled=0),
+                Button(style=ButtonStyle.black,label="5",disabled=0),
+                Button(style=ButtonStyle.black,label="6",disabled=0),
                 Button(style=ButtonStyle.blue,label="÷",disabled=0),
                 Button(style=ButtonStyle.red,label="ㅤ지우기ㅤ",disabled=0), 
             ],
             [
-                Button(style=ButtonStyle.gray,label="7",disabled=0),
-                Button(style=ButtonStyle.gray,label="8",disabled=0),
-                Button(style=ButtonStyle.gray,label="9",disabled=0),
+                Button(style=ButtonStyle.black,label="7",disabled=0),
+                Button(style=ButtonStyle.black,label="8",disabled=0),
+                Button(style=ButtonStyle.black,label="9",disabled=0),
                 Button(style=ButtonStyle.blue,label="+",disabled=0),
                 Button(style=ButtonStyle.red,label="모두지우기",disabled=0), 
             ],
             [
-                Button(style=ButtonStyle.gray,label="00",disabled=0),
-                Button(style=ButtonStyle.gray,label="0",disabled=0),
-                Button(style=ButtonStyle.gray,label=".",disabled=0),
+                Button(style=ButtonStyle.black,label="00",disabled=0),
+                Button(style=ButtonStyle.black,label="0",disabled=0),
+                Button(style=ButtonStyle.black,label=".",disabled=0),
                 Button(style=ButtonStyle.blue,label="-",disabled=0),
                 Button(style=ButtonStyle.green,label="ㅤㅤ=ㅤㅤ",disabled=0), 
             ],
             [
-                Button(style=ButtonStyle.gray,label="(",disabled=0),
-                Button(style=ButtonStyle.gray,label=")",disabled=0),
-                Button(style=ButtonStyle.gray,label="x²",disabled=0),
-                Button(style=ButtonStyle.gray,label="√",disabled=0),
-                Button(style=ButtonStyle.gray,label="ㅤㅤ𝝅ㅤㅤ",disabled=0), 
+                Button(style=ButtonStyle.black,label="(",disabled=0),
+                Button(style=ButtonStyle.black,label=")",disabled=0),
+                Button(style=ButtonStyle.black,label="x²",disabled=0),
+                Button(style=ButtonStyle.black,label="√",disabled=0),
+                Button(style=ButtonStyle.black,label="ㅤㅤ𝝅ㅤㅤ",disabled=0), 
             ]
         ]
         def calculator(exp):
@@ -126,7 +126,7 @@ async def on_message(message):
                     f = Embed(title = f"{message.author.name}님의 계산기 ",description = expression,timestamp = (delta))
                     await res.respond(content = "",embed = f,components = buttons,type = 7)
                 else:
-                    await res.respond(content = "오래된 계산기에요 계산기는 2분동안 사용을 안하면 사용할수 없어요")
+                    await res.respond(content = "오래된 계산기에요......")
                     break
             else:
                 await res.respond(content = "남의것을 사용하려하지말고 자신의것을 사용하세요!")
